@@ -1,0 +1,4 @@
+export const STORAGE_TYPE_TEAM = 'TEAM'
+export const STORAGE_TYPE_SCHEDULE = 'SCHEDULE'
+export const STORAGE_TYPE_HOME = 'HOME'
+export const STORAGE_TYPE_EQUIPMENT = 'EQUIPMENT'

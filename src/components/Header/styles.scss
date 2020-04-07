@@ -1,0 +1,11 @@
+header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: lightpink;
+
+  & > div:first-child {
+    width: 30%;
+  }
+}
+

@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import Header from './components/Header'
+import LeftPanel from "./components/LeftPanel";
+import Table from "./components/Table";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import {
+  STORAGE_TYPE_TEAM,
+  STORAGE_TYPE_SCHEDULE,
+  STORAGE_TYPE_HOME,
+  STORAGE_TYPE_EQUIPMENT
+} from './constants'
+import './styles.scss'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends PureComponent {
+
+  render = () => {
+    return (
+      <Router>
+        <Header />
+        <hr />
+        <main>
+          <Switch>
+            <Route path='/' exact>
+              <LeftPanel storageType={STORAGE_TYPE_HOME} />
+              <Table storageType={STORAGE_TYPE_HOME} />
+            </Route>
+            <Route path='/schedule' exact>
+              <LeftPanel storageType={STORAGE_TYPE_SCHEDULE} />
+              <Table storageType={STORAGE_TYPE_SCHEDULE} />
+            </Route>
+            <Route path='/team' exact>
+              <LeftPanel storageType={STORAGE_TYPE_TEAM} />
+              <Table storageType={STORAGE_TYPE_TEAM} />
+            </Route>
+            <Route path='/equipment' exact>
+              <LeftPanel storageType={STORAGE_TYPE_EQUIPMENT} />
+              <Table storageType={STORAGE_TYPE_EQUIPMENT} />
+            </Route>
+          </Switch>
+        </main>
+      </Router>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  schedule: state.schedule,
+})
+
+export default connect(mapStateToProps)(App);
