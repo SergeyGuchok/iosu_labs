@@ -39,3 +39,48 @@ table {
   color: lightgrey;
   height: 400px;
 }
+
+.table-wrapper {
+  position: relative;
+
+  input[type="checkbox"] {
+    position: relative;
+    width: 0;
+    height: 0;
+    &::before {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      font-size: 1.5em;
+      color: lightgreen;
+      transform: translate3d(-10px, -15px, 0);
+      background-color: white;
+      border: 1px solid lightgray;
+      border-radius: 5px;
+      content: '';
+      cursor: pointer;
+    }
+
+    &:checked::before {
+      content: '\2714';
+    }
+  }
+}
+
+.spinner {
+  position: absolute;
+  background-color: lightgray;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+}

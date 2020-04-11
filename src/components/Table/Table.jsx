@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import './styles.scss'
 import { loadData } from '../../API'
-import { loadDataAction, dataFetching, dataFetchingEnded } from "../../actions";
+import { loadDataAction, dataFetching, dataFetchingEnded, selectFieldCheckedForStorage } from "../../actions";
 import { STORAGE_TYPE_TEAM, STORAGE_TYPE_EQUIPMENT } from "../../constants";
 
 class Table extends PureComponent {
@@ -15,7 +15,7 @@ class Table extends PureComponent {
   }
 
   componentDidUpdate = (prevProps) => {
-    console.log(this.state.currentData)
+    console.log(this.props)
     if (prevProps.storageType !== this.props.storageType) {
       this.props.loadData()
     }
@@ -35,8 +35,8 @@ class Table extends PureComponent {
     }
   }
 
-  checkElement = (el) => {
-    console.log(el)
+  checkElement = (field, e) => {
+    console.log(e.target.checked)
   }
 
   render = () => (
@@ -47,7 +47,7 @@ class Table extends PureComponent {
             <table>
               <tbody>
               <tr>
-                <th>&nbsp;</th>
+                <th style={{ width: '40px' }}>&nbsp;</th>
                 {
                   this.state.currentData[0] &&
                   Object.keys(this.state.currentData[0]).map((key, index) => <th key={index}>{key}</th>)
@@ -58,7 +58,7 @@ class Table extends PureComponent {
                   return (
                     <tr key={index}>
                       <td>
-                        <input type="checkbox" onClick={() => this.checkElement(el)}/>
+                        <input type="checkbox" onChange={(e) => this.checkElement(el, e)}/>
                       </td>
                       {
                         Object.keys(el).map((key, index) => <td key={index}>{el[key]}</td>)
@@ -75,9 +75,13 @@ class Table extends PureComponent {
             </div>
           )
         }
-      </div>
-      <div className='spinner'>
-        <i className="fa fa-spinner fa-spin" />
+        {
+          this.props.isFetching && (
+            <div className="spinner">
+              <i className="fa fa-spinner fa-spin"/>
+            </div>
+          )
+        }
       </div>
     </section>
   )
@@ -99,6 +103,9 @@ const mergeProps = (stateProps, { dispatch }, ownProps) => ({
 
     dispatch(loadDataAction(data, ownProps.storageType))
     dispatch(dataFetchingEnded())
+  },
+  selectField: (field, isChecked) => {
+    dispatch(selectFieldCheckedForStorage(field, isChecked, ownProps.storageType))
   }
 })
 
